@@ -22,6 +22,16 @@ class CampaignController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     * @return JsonResponse
+     */
+    public function index(): JsonResponse
+    {
+        $campaigns = $this->campaignService->getAllCampaigns();
+        return $this->success(CampaignResource::collection($campaigns), Lang::get('operation.all'));
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param CreateCampaignRequest $request
