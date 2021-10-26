@@ -41,12 +41,12 @@ class CampaignTest extends TestCase
      *
      * @return void
      */
-//    public function testCreateCampaign()
-//    {
-//        $response = $this->post('api/campaigns', Campaign::factory()->make()->toArray());
-//        $response->assertStatus(Response::HTTP_CREATED)->assertJson([
-//            'success' => true,
-//            'message' => Lang::get('operation.store'),
-//        ]);
-//    }
+    public function testCreateCampaign()
+    {
+        $response = $this->post('api/campaigns', Campaign::factory()->make()->toArray());
+        $response->assertStatus(Response::HTTP_CREATED)->assertJson([
+            'success' => true,
+            'message' => Lang::get('operation.store'),
+        ]);
+    }
 }
