@@ -24,7 +24,7 @@ class CreateCampaignRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required'],
+            'name' => ['required', 'unique:campaigns'],
             'total_budget' => ['required', 'numeric'],
             'daily_budget' => ['required', 'numeric'],
         ];
