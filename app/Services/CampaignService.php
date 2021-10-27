@@ -47,6 +47,23 @@ class CampaignService
         ]);
     }
 
+    /**
+     * Update a campaign
+     *
+     * @param array $data
+     * @param Campaign $campaign
+     * @return Campaign
+     */
+    public function updateCampaign(array $data, Campaign $campaign): Campaign
+    {
+        $campaign->update([
+            'name' => $data['name'],
+            'total_budget' => $data['total_budget'] * 100,
+            'daily_budget' => $data['daily_budget'] * 100,
+        ]);
+        return $campaign->refresh();
+    }
+
     public function clearCache(): void
     {
         Cache::tags(self::CACHE_KEY)->flush();

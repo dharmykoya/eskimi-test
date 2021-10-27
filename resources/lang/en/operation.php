@@ -14,6 +14,7 @@ return [
     */
 
     'store' => 'This record has been created successfully.',
-    'all' => 'Data fetched successfully'
+    'all' => 'Data fetched successfully',
+    'update' => 'Update successful'
 
 ];

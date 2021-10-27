@@ -42,4 +42,17 @@ class CampaignController extends Controller
         $campaign = $this->campaignService->createCampaign($request->validated());
         return $this->success(new CampaignResource($campaign), Lang::get('operation.store'), Response::HTTP_CREATED);
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param CreateCampaignRequest $request
+     * @param Campaign $campaign
+     * @return JsonResponse
+     */
+    public function update(CreateCampaignRequest $request, Campaign $campaign): JsonResponse
+    {
+        $campaign = $this->campaignService->updateCampaign($request->validated(), $campaign);
+        return $this->success($campaign, Lang::get('operation.update'));
+    }
 }
