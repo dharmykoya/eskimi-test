@@ -12,6 +12,7 @@ use Throwable;
 class Handler extends ExceptionHandler
 {
     use JsonResponseTrait;
+
     /**
      * A list of the exception types that are not reported.
      *

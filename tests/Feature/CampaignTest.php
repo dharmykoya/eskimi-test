@@ -11,6 +11,16 @@ use Tests\TestCase;
 
 class CampaignTest extends TestCase
 {
+    use RefreshDatabase;
+
+    public $campaignA;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->artisan('db:seed --class=CampaignSeeder');
+        $this->campaignA = Campaign::create(Campaign::factory()->make()->toArray());
+    }
     /**
      * A basic feature test to check for validations.
      *
@@ -47,6 +57,25 @@ class CampaignTest extends TestCase
         $response->assertStatus(Response::HTTP_CREATED)->assertJson([
             'success' => true,
             'message' => Lang::get('operation.store'),
+        ]);
+    }
+
+
+    /**
+     * A basic feature test to test if campaigns can be updated.
+     *
+     * @return void
+     */
+    public function testUpdateCampaign()
+    {
+        $response = $this->put("api/campaigns/{$this->campaignA->id}", [
+            'name' => 'damilola insta',
+            'total_budget' => 800000,
+            'daily_budget' => 900
+        ]);
+        $response->assertStatus(Response::HTTP_OK)->assertJson([
+            'success' => true,
+            'message' => Lang::get('operation.update'),
         ]);
     }
 }
