@@ -2,18 +2,26 @@
 
 namespace App\Services;
 
+use App\Models\Campaign;
 use App\Models\Image;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 
 class ImageService
 {
-    public function uploadImage($campaign)
+    /**
+     * Upload Image
+     *
+     * @param Campaign $campaign
+     * @return Model
+     */
+    public function uploadImage(Campaign $campaign): Model
     {
         if (request()->file('banners')) {
+            $count = 1;
             foreach (request()->file('banners') as $file) {
                 $location = 'files';
-                $filename = time() . '_' . $file->getClientOriginalName();
+                $filename = now()->timestamp . '_' . $count++ . '.' . $file->getClientOriginalExtension();
+                $file->move($location, $filename);
 
                 $image = new Image();
                 $image->campaign_id = $campaign->id;
@@ -22,6 +30,6 @@ class ImageService
                 $image->save();
             }
         }
-            return $campaign;
+        return $campaign;
     }
 }

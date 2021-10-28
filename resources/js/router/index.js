@@ -5,10 +5,18 @@ Vue.use(VueRouter);
 
 export const routes = [
     {
-        path: '/:authPage?',
+        path: '/',
         name: 'home',
         component: () => import('../components/Home'),
-        // component: () => import('../components/Note/Index'),
+        props: true,
+        meta: {
+            guest: true
+        }
+    },
+    {
+        path: '/campaigns/:campaignId',
+        name: 'campaign',
+        component: () => import('../components/Campaign'),
         props: true,
         meta: {
             guest: true

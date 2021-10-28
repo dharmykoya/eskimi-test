@@ -35,6 +35,18 @@ class CampaignController extends Controller
         return $this->success(CampaignResource::collection($campaigns), Lang::get('operation.all'));
     }
 
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Campaign $campaign
+     * @return JsonResponse
+     */
+    public function show(Campaign $campaign): JsonResponse
+    {
+        return $this->success(new CampaignResource($campaign), Lang::get('operation.get'));
+    }
+
     /**
      * Store a newly created resource in storage.
      *

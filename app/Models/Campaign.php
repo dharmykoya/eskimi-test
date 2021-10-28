@@ -29,4 +29,26 @@ class Campaign extends Model
     {
         return $this->hasMany(Image::class);
     }
+
+    /**
+     * Format the daily budget amount to USD.
+     *
+     * @param  float  $value
+     * @return float
+     */
+    public function getDailyBudgetAttribute(float $value): float
+    {
+        return ($value) / 100;
+    }
+
+    /**
+     * Format the total budget amount to USD.
+     *
+     * @param  float  $value
+     * @return float
+     */
+    public function getTotalBudgetAttribute(float $value): float
+    {
+        return ($value) / 100;
+    }
 }
