@@ -44,6 +44,8 @@ class CampaignService
             'name' => $data['name'],
             'total_budget' => $data['total_budget'] * 100,
             'daily_budget' => $data['daily_budget'] * 100,
+            'start_date' =>  Carbon::parse($data['start_date']),
+            'end_date' =>  Carbon::parse($data['end_date'])
         ]);
         $imageUpload = new ImageService();
         $imageUpload->uploadImage($campaign);

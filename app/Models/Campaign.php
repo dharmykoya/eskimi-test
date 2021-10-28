@@ -18,7 +18,9 @@ class Campaign extends Model
     protected $fillable = [
         'name',
         'total_budget',
-        'daily_budget'
+        'daily_budget',
+        'start_date',
+        'end_date'
     ];
 
     protected $with = [

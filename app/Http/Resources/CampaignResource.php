@@ -22,6 +22,8 @@ class CampaignResource extends JsonResource
             'total_budget' => $this->total_budget,
             'daily_budget' => $this->daily_budget,
             'images' => ImageResource::collection($this->images),
+            'start_date' => Carbon::parse($this->start_date)->toFormattedDateString(),
+            'end_date' => Carbon::parse($this->end_date)->toFormattedDateString(),
             'created_at' => Carbon::parse($this->created_at)->toFormattedDateString(),
             'updated_at' => Carbon::parse($this->updated_at)->toFormattedDateString(),
         ];
