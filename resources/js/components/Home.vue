@@ -108,7 +108,7 @@ export default {
             this.openModal();
         },
         async fetchCampaigns() {
-            const response = await fetch('http://localhost:8084/api/campaigns')
+            const response = await fetch(`${process.env.MIX_FRONTEND_BASE_URL}/campaigns`)
             const data = await response.json()
             return data.data
         }

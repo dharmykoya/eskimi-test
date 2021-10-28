@@ -169,7 +169,7 @@ export default {
             this.formData?.append('start_date', this.startDateInput)
             this.formData?.append('end_date', this.endDateInput)
 
-            const res = await fetch('http://localhost:8084/api/campaigns', {
+            const res = await fetch(`${process.env.MIX_FRONTEND_BASE_URL}/campaigns`, {
                 method: 'POST',
                 body: this.formData,
             })
