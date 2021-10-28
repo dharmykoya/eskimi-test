@@ -58,10 +58,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Home.vue",
   data: function data() {
     return {
+      campaigns: [],
       products: [{
         id: 1,
         name: 'Basic Tee',
@@ -97,10 +106,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   methods: {
     fetchCampaigns: function fetchCampaigns() {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var response, data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _context.next = 2;
+                return fetch('http://localhost:8084/api/campaigns');
+
+              case 2:
+                response = _context.sent;
+                _context.next = 5;
+                return response.json();
+
+              case 5:
+                data = _context.sent;
+                console.log(78, data);
+                return _context.abrupt("return", data.data);
+
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -108,6 +132,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     }
+  },
+  created: function created() {
+    var _this = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return _this.fetchCampaigns();
+
+            case 2:
+              _this.campaigns = _context2.sent;
+
+            case 3:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }))();
   }
 });
 
@@ -978,7 +1024,7 @@ var render = function () {
           {
             staticClass: "text-2xl font-extrabold tracking-tight text-gray-900",
           },
-          [_vm._v("Customers also purchased")]
+          [_vm._v("Campaigns")]
         ),
         _vm._v(" "),
         _c(
@@ -987,10 +1033,10 @@ var render = function () {
             staticClass:
               "mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8",
           },
-          _vm._l(_vm.products, function (product) {
+          _vm._l(_vm.campaigns, function (campaign) {
             return _c(
               "div",
-              { key: product.id, staticClass: "group relative" },
+              { key: campaign.id, staticClass: "group relative" },
               [
                 _c(
                   "div",
@@ -1002,37 +1048,47 @@ var render = function () {
                     _c("img", {
                       staticClass:
                         "w-full h-full object-center object-cover lg:w-full lg:h-full",
-                      attrs: { src: product.imageSrc, alt: product.imageAlt },
+                      attrs: { alt: campaign, src: campaign.imageSrc },
                     }),
                   ]
                 ),
                 _vm._v(" "),
-                _c("div", { staticClass: "mt-4 flex justify-between" }, [
+                _c("div", { staticClass: "mt-4" }, [
                   _c("div", [
                     _c("h3", { staticClass: "text-sm text-gray-700" }, [
-                      _c("a", { attrs: { href: product.href } }, [
+                      _c("a", { attrs: { href: campaign.href } }, [
                         _c("span", {
                           staticClass: "absolute inset-0",
                           attrs: { "aria-hidden": "true" },
                         }),
                         _vm._v(
                           "\n                                " +
-                            _vm._s(product.name) +
+                            _vm._s(campaign.name) +
                             "\n                            "
                         ),
                       ]),
                     ]),
                     _vm._v(" "),
-                    _c("p", { staticClass: "mt-1 text-sm text-gray-500" }, [
-                      _vm._v(_vm._s(product.color)),
+                    _c("div", { staticClass: "flex justify-between" }, [
+                      _c("p", { staticClass: "mt-1 text-sm text-gray-500" }, [
+                        _vm._v("Daily Budget"),
+                      ]),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "mt-1 text-sm text-gray-500" }, [
+                        _vm._v(_vm._s(campaign.daily_budget)),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "flex justify-between" }, [
+                      _c("p", { staticClass: "mt-1 text-sm text-gray-500" }, [
+                        _vm._v("Total Budget"),
+                      ]),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "mt-1 text-sm text-gray-500" }, [
+                        _vm._v(_vm._s(campaign.total_budget)),
+                      ]),
                     ]),
                   ]),
-                  _vm._v(" "),
-                  _c(
-                    "p",
-                    { staticClass: "text-sm font-medium text-gray-900" },
-                    [_vm._v(_vm._s(product.price))]
-                  ),
                 ]),
               ]
             )

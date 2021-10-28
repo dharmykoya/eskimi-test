@@ -24,7 +24,7 @@ class CampaignFactory extends Factory
         return [
             'name' => $this->faker->sentence(),
             'total_budget' => $this->faker->numberBetween(500000, 10000000),
-            'daily_budget' => $this->faker->numberBetween(1000, 30000),
+            'daily_budget' => $this->faker->numberBetween(1000, 30000)
         ];
     }
 }

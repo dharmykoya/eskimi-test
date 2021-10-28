@@ -6,12 +6,14 @@ use App\Models\Campaign;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Lang;
 use Tests\TestCase;
 
 class CampaignTest extends TestCase
 {
     use RefreshDatabase;
+    use WithFaker;
 
     public $campaignA;
 
@@ -47,13 +49,43 @@ class CampaignTest extends TestCase
     }
 
     /**
+     * A basic feature test to test if campaigns will not  be created  with wrong file.
+     *
+     * @return void
+     */
+    public function testCanNotCreateCampaignWithWrongFileFormat()
+    {
+        $response = $this->post(
+            'api/campaigns',
+            [
+                "name" => "wrong file",
+                "daily_budget" => 5000,
+                "total_budget" => 50000000,
+                "banners" => [UploadedFile::fake()->image('avatar.pdf')->size(100)]
+            ],
+        );
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)->assertJson([
+            'success' => false,
+            'message' => 'The given data was invalid',
+        ]);
+    }
+
+    /**
      * A basic feature test to test if campaigns can be created.
      *
      * @return void
      */
     public function testCreateCampaign()
     {
-        $response = $this->post('api/campaigns', Campaign::factory()->make()->toArray());
+        $response = $this->post(
+            'api/campaigns',
+            [
+                "name" => "we love camp",
+                "daily_budget" => 5000,
+                "total_budget" => 50000000,
+                "banners" => [UploadedFile::fake()->image('avatar.jpg')->size(100)]
+            ],
+        );
         $response->assertStatus(Response::HTTP_CREATED)->assertJson([
             'success' => true,
             'message' => Lang::get('operation.store'),
@@ -71,7 +103,8 @@ class CampaignTest extends TestCase
         $response = $this->put("api/campaigns/{$this->campaignA->id}", [
             'name' => 'damilola insta',
             'total_budget' => 800000,
-            'daily_budget' => 900
+            'daily_budget' => 900,
+            "banners" => [UploadedFile::fake()->image('avatar.jpg')->size(100)]
         ]);
         $response->assertStatus(Response::HTTP_OK)->assertJson([
             'success' => true,

@@ -6,11 +6,15 @@ use App\Http\Requests\CreateCampaignRequest;
 use App\Http\Resources\CampaignResource;
 use App\Models\Campaign;
 use App\Services\CampaignService;
+use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+use App\Models\Image;
 
 class CampaignController extends Controller
 {
@@ -39,8 +43,21 @@ class CampaignController extends Controller
      */
     public function store(CreateCampaignRequest $request): JsonResponse
     {
-        $campaign = $this->campaignService->createCampaign($request->validated());
-        return $this->success(new CampaignResource($campaign), Lang::get('operation.store'), Response::HTTP_CREATED);
+        try {
+            DB::beginTransaction();
+
+            $campaign = $this->campaignService->createCampaign($request->validated());
+
+            DB::commit();
+            return $this->success(
+                new CampaignResource($campaign),
+                Lang::get('operation.store'),
+                Response::HTTP_CREATED
+            );
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->fatalError($e);
+        }
     }
 
     /**

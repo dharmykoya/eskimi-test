@@ -63,7 +63,7 @@ trait JsonResponseTrait
 
         $error = [
             'message' => $e->getMessage(),
-            'trace' => $line[0],
+            'trace' => $line,
             'mini_trace' => $line[1],
         ];
 
