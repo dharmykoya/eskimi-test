@@ -144,37 +144,6 @@
                         </div>
                     </div>
                 </template>
-
-<!--                <div class="mt-6 mb-2">-->
-<!--                    <p class="text-green-500 mb-4 text-center">{{ uploadMessage }}</p>-->
-<!--                    <div v-if="isError" class="mb-8 mt-4">-->
-<!--                        <ul>-->
-<!--                            <li v-for="(error, index) in uploadErrors" :key="index" class="text-red-500">-->
-<!--                                {{ error[0] }}-->
-<!--                            </li>-->
-<!--                        </ul>-->
-
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                <div>-->
-<!--                    <label class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2 mb-2" for="banners">-->
-<!--                        Add Banners(multiple)-->
-<!--                    </label>-->
-<!--                    <input id="banners" accept="image/*" class="mb-3" multiple name="banners[]" type="file"-->
-<!--                           @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length"-->
-<!--                    >-->
-<!--                    <p class="text-xs text-gray-500">-->
-<!--                        PNG, JPG, GIF up to 2MB-->
-<!--                    </p>-->
-<!--                </div>-->
-<!--                <div class="mt-4">-->
-<!--                    <button @click.prevent="uploadImages"  :disabled="isUploading" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"-->
-<!--                            type="submit">-->
-<!--                        <span v-if="isUploading">Uploading...</span>-->
-<!--                        <span v-else>Upload</span>-->
-<!--                    </button>-->
-<!--                </div>-->
             </div>
         </div>
     </div>
@@ -239,7 +208,7 @@ export default {
             this.uploadedFiles = []
         },
         openImage(url) {
-            window.open(`http://127.0.0.1:8084/${url}`,  '_blank')
+            window.open(`${process.env.MIX_FRONTEND_BASE_URL}/${url}`,  '_blank')
         },
         filesChange(inputName, fileList) {
             const formData = new FormData();
@@ -281,7 +250,7 @@ export default {
                 }
             }
 
-            const res = await fetch(`http://localhost:8084/api/campaigns/${this.campaign?.id}`, {
+            const res = await fetch(`${process.env.MIX_FRONTEND_BASE_URL}/campaigns/${this.campaign?.id}`, {
                 method: 'POST',
                 headers: {
                     ...(isFormData ? '' : {'Content-type': 'application/json'})
@@ -306,40 +275,16 @@ export default {
             this.loading = false
         },
         async fetchCampaign() {
-            const response = await fetch(`http://localhost:8084/api/campaigns/${this.campaignId}`)
+            const response = await fetch(`${process.env.MIX_FRONTEND_BASE_URL}/campaigns/${this.campaignId}`)
             const data = await response.json();
             return data.data
         },
         async removeImage(imageId) {
-            const response = await fetch(`http://localhost:8084/api/images/${imageId}`, {
+            const response = await fetch(`${process.env.MIX_FRONTEND_BASE_URL}/images/${imageId}`, {
                 method: 'DELETE'
             })
             const data = await response.json();
-            console.log(56, data)
             return data.data
-        },
-        async uploadImages() {
-            this.isUploading = true;
-            console.log(89, uploading)
-            const res = await fetch(`http://localhost:8084/api/images/${this.campaign?.id}`, {
-                method: 'POST',
-                body: this.formData,
-            })
-            const data = await res.json()
-            this.isUploading = false
-            if (!data.success) {
-                this.isError = true;
-                if (data.errors) {
-                    this.uploadErrors = Object.entries(data.errors)
-                        .map(([, fieldErrors]) =>
-                            fieldErrors.map(fieldError => `${fieldError}`)
-                        )
-                }
-                return
-            }
-            this.reset();
-            this.uploadMessage = "Advert Updated";
-            this.isUploading = false
         },
         async reloadData() {
             this.campaign = await this.fetchCampaign();

@@ -199,37 +199,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "EditCampaign",
   data: function data() {
@@ -300,7 +269,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.uploadedFiles = [];
     },
     openImage: function openImage(url) {
-      window.open("http://127.0.0.1:8084/".concat(url), '_blank');
+      window.open("".concat("http://localhost:8084/api", "/").concat(url), '_blank');
     },
     filesChange: function filesChange(inputName, fileList) {
       var formData = new FormData();
@@ -358,7 +327,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 _context.next = 12;
-                return fetch("http://localhost:8084/api/campaigns/".concat((_this$campaign7 = _this.campaign) === null || _this$campaign7 === void 0 ? void 0 : _this$campaign7.id), {
+                return fetch("".concat("http://localhost:8084/api", "/campaigns/").concat((_this$campaign7 = _this.campaign) === null || _this$campaign7 === void 0 ? void 0 : _this$campaign7.id), {
                   method: 'POST',
                   headers: _objectSpread({}, isFormData ? '' : {
                     'Content-type': 'application/json'
@@ -423,7 +392,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return fetch("http://localhost:8084/api/campaigns/".concat(_this2.campaignId));
+                return fetch("".concat("http://localhost:8084/api", "/campaigns/").concat(_this2.campaignId));
 
               case 2:
                 response = _context2.sent;
@@ -450,7 +419,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return fetch("http://localhost:8084/api/images/".concat(imageId), {
+                return fetch("".concat("http://localhost:8084/api", "/images/").concat(imageId), {
                   method: 'DELETE'
                 });
 
@@ -461,10 +430,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 5:
                 data = _context3.sent;
-                console.log(56, data);
                 return _context3.abrupt("return", data.data);
 
-              case 8:
+              case 7:
               case "end":
                 return _context3.stop();
             }
@@ -472,93 +440,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    uploadImages: function uploadImages() {
+    reloadData: function reloadData() {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-        var _this3$campaign;
-
-        var res, data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _this3.isUploading = true;
-                console.log(89, uploading);
-                _context4.next = 4;
-                return fetch("http://localhost:8084/api/images/".concat((_this3$campaign = _this3.campaign) === null || _this3$campaign === void 0 ? void 0 : _this3$campaign.id), {
-                  method: 'POST',
-                  body: _this3.formData
-                });
+                _context4.next = 2;
+                return _this3.fetchCampaign();
 
-              case 4:
-                res = _context4.sent;
-                _context4.next = 7;
-                return res.json();
+              case 2:
+                _this3.campaign = _context4.sent;
+                _this3.nameInput = _this3.campaign.name;
+                _this3.dailyBudgetInput = _this3.campaign.daily_budget;
+                _this3.totalBudgetInput = _this3.campaign.total_budget;
+                _this3.startDateInput = _this3.campaign.start_date;
+                _this3.endDateInput = _this3.campaign.end_date;
 
-              case 7:
-                data = _context4.sent;
-                _this3.isUploading = false;
-
-                if (data.success) {
-                  _context4.next = 13;
-                  break;
-                }
-
-                _this3.isError = true;
-
-                if (data.errors) {
-                  _this3.uploadErrors = Object.entries(data.errors).map(function (_ref3) {
-                    var _ref4 = _slicedToArray(_ref3, 2),
-                        fieldErrors = _ref4[1];
-
-                    return fieldErrors.map(function (fieldError) {
-                      return "".concat(fieldError);
-                    });
-                  });
-                }
-
-                return _context4.abrupt("return");
-
-              case 13:
-                _this3.reset();
-
-                _this3.uploadMessage = "Advert Updated";
-                _this3.isUploading = false;
-
-              case 16:
+              case 8:
               case "end":
                 return _context4.stop();
             }
           }
         }, _callee4);
-      }))();
-    },
-    reloadData: function reloadData() {
-      var _this4 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                _context5.next = 2;
-                return _this4.fetchCampaign();
-
-              case 2:
-                _this4.campaign = _context5.sent;
-                _this4.nameInput = _this4.campaign.name;
-                _this4.dailyBudgetInput = _this4.campaign.daily_budget;
-                _this4.totalBudgetInput = _this4.campaign.total_budget;
-                _this4.startDateInput = _this4.campaign.start_date;
-                _this4.endDateInput = _this4.campaign.end_date;
-
-              case 8:
-              case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5);
       }))();
     }
   },
@@ -566,22 +472,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.reset();
   },
   created: function created() {
-    var _this5 = this;
+    var _this4 = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
         while (1) {
-          switch (_context6.prev = _context6.next) {
+          switch (_context5.prev = _context5.next) {
             case 0:
-              _context6.next = 2;
-              return _this5.reloadData();
+              _context5.next = 2;
+              return _this4.reloadData();
 
             case 2:
             case "end":
-              return _context6.stop();
+              return _context5.stop();
           }
         }
-      }, _callee6);
+      }, _callee5);
     }))();
   }
 });
@@ -1462,14 +1368,14 @@ var render = function () {
             staticClass:
               "mt-6 text-center text-3xl font-extrabold text-gray-900",
           },
-          [_vm._v("\n                Edit Campaign\n            ")]
+          [_vm._v("\n            Edit Campaign\n        ")]
         ),
         _vm._v(" "),
         _c(
           "p",
           { staticClass: "mt-2 text-center text-sm text-gray-600" },
           [
-            _vm._v("\n                Or\n                "),
+            _vm._v("\n            Or\n            "),
             _c(
               "router-link",
               {
@@ -1486,7 +1392,7 @@ var render = function () {
           "p",
           { staticClass: "mt-2 text-center text-sm text-gray-600" },
           [
-            _vm._v("\n                Or\n                "),
+            _vm._v("\n            Or\n            "),
             _c(
               "router-link",
               {
@@ -1528,9 +1434,9 @@ var render = function () {
                         { key: index, staticClass: "text-red-500" },
                         [
                           _vm._v(
-                            "\n                            " +
+                            "\n                        " +
                               _vm._s(error[0]) +
-                              "\n                        "
+                              "\n                    "
                           ),
                         ]
                       )
@@ -1611,7 +1517,7 @@ var render = function () {
                         },
                         [
                           _vm._v(
-                            "Daily\n                                Budget($USD)"
+                            "Daily\n                            Budget($USD)"
                           ),
                         ]
                       ),
@@ -1663,7 +1569,7 @@ var render = function () {
                         },
                         [
                           _vm._v(
-                            "Total\n                                Budget($USD)"
+                            "Total\n                            Budget($USD)"
                           ),
                         ]
                       ),
@@ -1716,9 +1622,9 @@ var render = function () {
                         [_vm._v("End Date")]
                       ),
                       _vm._v(
-                        "\n                            " +
+                        "\n                        " +
                           _vm._s(_vm.startDateInput) +
-                          "\n                            "
+                          "\n                        "
                       ),
                       _c(
                         "button",
@@ -1804,9 +1710,9 @@ var render = function () {
                         [_vm._v("End Date")]
                       ),
                       _vm._v(
-                        "\n                            " +
+                        "\n                        " +
                           _vm._s(_vm.endDateInput) +
-                          "\n                            "
+                          "\n                        "
                       ),
                       _c(
                         "button",
@@ -1884,7 +1790,7 @@ var render = function () {
                       },
                       [
                         _vm._v(
-                          "\n                                Banners(multiple)\n                            "
+                          "\n                            Banners(multiple)\n                        "
                         ),
                       ]
                     ),
@@ -1911,7 +1817,7 @@ var render = function () {
                     _vm._v(" "),
                     _c("p", { staticClass: "text-xs text-gray-500" }, [
                       _vm._v(
-                        "\n                                PNG, JPG, GIF up to 2MB\n                            "
+                        "\n                            PNG, JPG, GIF up to 2MB\n                        "
                       ),
                     ]),
                   ]),
@@ -1981,7 +1887,7 @@ var render = function () {
                               },
                               [
                                 _vm._v(
-                                  "\n                                    view\n                                "
+                                  "\n                                view\n                            "
                                 ),
                               ]
                             ),

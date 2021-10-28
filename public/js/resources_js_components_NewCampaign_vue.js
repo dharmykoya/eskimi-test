@@ -227,7 +227,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 (_this$formData4 = _this.formData) === null || _this$formData4 === void 0 ? void 0 : _this$formData4.append('start_date', _this.startDateInput);
                 (_this$formData5 = _this.formData) === null || _this$formData5 === void 0 ? void 0 : _this$formData5.append('end_date', _this.endDateInput);
                 _context.next = 15;
-                return fetch('http://localhost:8084/api/campaigns', {
+                return fetch("".concat("http://localhost:8084/api", "/campaigns"), {
                   method: 'POST',
                   body: _this.formData
                 });

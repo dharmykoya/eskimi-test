@@ -62,7 +62,7 @@ export default {
     },
     methods: {
         async fetchCampaign() {
-            const response = await fetch(`http://localhost:8084/api/campaigns/${this.campaignId}`)
+            const response = await fetch(`${process.env.MIX_FRONTEND_BASE_URL}/campaigns/${this.campaignId}`)
             const data = await response.json();
             return data.data
         },
