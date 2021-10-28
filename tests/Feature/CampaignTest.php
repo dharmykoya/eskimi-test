@@ -83,6 +83,8 @@ class CampaignTest extends TestCase
                 "name" => "we love camp",
                 "daily_budget" => 5000,
                 "total_budget" => 50000000,
+                'start_date' => "2021-10-29",
+                'end_date' => "2022-10-29",
                 "banners" => [UploadedFile::fake()->image('avatar.jpg')->size(100)]
             ],
         );

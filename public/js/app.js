@@ -2083,10 +2083,10 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 /* harmony import */ var _components_App__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/App */ "./resources/js/components/App.vue");
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./router */ "./resources/js/router/index.js");
-/* harmony import */ var _css_app_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./css/app.scss */ "./resources/js/css/app.scss");
+/* harmony import */ var _css_app_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./css/app.scss */ "./resources/js/css/app.scss");
 /* provided dependency */ var process = __webpack_require__(/*! process/browser */ "./node_modules/process/browser.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
@@ -2099,11 +2099,14 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
+vue__WEBPACK_IMPORTED_MODULE_2__["default"].component('modal', function () {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Modal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Modal */ "./resources/js/components/Modal.vue"));
+});
 
-vue__WEBPACK_IMPORTED_MODULE_3__["default"].config.ignoredElements = [/^ion-/];
-vue__WEBPACK_IMPORTED_MODULE_3__["default"].config.productionTip = false;
-vue__WEBPACK_IMPORTED_MODULE_3__["default"].config.devtools = process.env.VUE_APP_ENV !== 'production';
-window.App = new vue__WEBPACK_IMPORTED_MODULE_3__["default"](_objectSpread({
+vue__WEBPACK_IMPORTED_MODULE_2__["default"].config.ignoredElements = [/^ion-/];
+vue__WEBPACK_IMPORTED_MODULE_2__["default"].config.productionTip = false;
+vue__WEBPACK_IMPORTED_MODULE_2__["default"].config.devtools = process.env.VUE_APP_ENV !== 'production';
+window.App = new vue__WEBPACK_IMPORTED_MODULE_2__["default"](_objectSpread({
   router: _router__WEBPACK_IMPORTED_MODULE_1__["default"]
 }, _components_App__WEBPACK_IMPORTED_MODULE_0__["default"])).$mount('#app');
 
@@ -2172,6 +2175,16 @@ var routes = [{
   name: 'new-campaign',
   component: function component() {
     return __webpack_require__.e(/*! import() */ "resources_js_components_NewCampaign_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/NewCampaign */ "./resources/js/components/NewCampaign.vue"));
+  },
+  props: true,
+  meta: {
+    guest: true
+  }
+}, {
+  path: '/campaigns/:campaignId/edit',
+  name: 'edit-campaign',
+  component: function component() {
+    return __webpack_require__.e(/*! import() */ "resources_js_components_EditCampaign_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/EditCampaign */ "./resources/js/components/EditCampaign.vue"));
   },
   props: true,
   meta: {
@@ -35181,7 +35194,7 @@ module.exports = JSON.parse('{"_from":"axios@^0.21","_id":"axios@0.21.4","_inBun
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_Home_vue":1,"resources_js_components_NewCampaign_vue":1,"resources_js_components_Campaign_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_Modal_vue":1,"resources_js_components_Home_vue":1,"resources_js_components_NewCampaign_vue":1,"resources_js_components_EditCampaign_vue":1,"resources_js_components_Campaign_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};
