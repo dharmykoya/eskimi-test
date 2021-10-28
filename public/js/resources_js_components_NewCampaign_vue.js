@@ -155,6 +155,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NewCampaign",
   data: function data() {
@@ -216,28 +217,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context.abrupt("return");
 
               case 7:
+                if (!_this.formData) {
+                  _this.formData = new FormData();
+                }
+
                 (_this$formData = _this.formData) === null || _this$formData === void 0 ? void 0 : _this$formData.append('name', _this.nameInput);
                 (_this$formData2 = _this.formData) === null || _this$formData2 === void 0 ? void 0 : _this$formData2.append('daily_budget', _this.dailyBudgetInput);
                 (_this$formData3 = _this.formData) === null || _this$formData3 === void 0 ? void 0 : _this$formData3.append('total_budget', _this.totalBudgetInput);
                 (_this$formData4 = _this.formData) === null || _this$formData4 === void 0 ? void 0 : _this$formData4.append('start_date', _this.startDateInput);
                 (_this$formData5 = _this.formData) === null || _this$formData5 === void 0 ? void 0 : _this$formData5.append('end_date', _this.endDateInput);
-                _context.next = 14;
+                _context.next = 15;
                 return fetch('http://localhost:8084/api/campaigns', {
                   method: 'POST',
                   body: _this.formData
                 });
 
-              case 14:
+              case 15:
                 res = _context.sent;
-                _context.next = 17;
+                _context.next = 18;
                 return res.json();
 
-              case 17:
+              case 18:
                 data = _context.sent;
                 _this.loading = false;
 
                 if (data.success) {
-                  _context.next = 23;
+                  _context.next = 24;
                   break;
                 }
 
@@ -256,13 +261,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 return _context.abrupt("return");
 
-              case 23:
+              case 24:
                 _this.reset();
 
                 _this.successMessage = "Advert Added";
                 _this.loading = false;
 
-              case 26:
+              case 27:
               case "end":
                 return _context.stop();
             }
@@ -1482,6 +1487,7 @@ var render = function () {
                         multiple: "",
                         name: "banners[]",
                         type: "file",
+                        required: "",
                       },
                       on: {
                         change: function ($event) {

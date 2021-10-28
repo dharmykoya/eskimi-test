@@ -91,6 +91,7 @@
                             </label>
                             <input id="banners" accept="image/*" class="mb-3" multiple name="banners[]" type="file"
                                    @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length"
+                                   required
                             >
                             <p class="text-xs text-gray-500">
                                 PNG, JPG, GIF up to 2MB
@@ -158,6 +159,9 @@ export default {
                 this.isError = true;
                 this.loading = false
                 return
+            }
+            if (!this.formData)  {
+                this.formData  = new FormData()
             }
             this.formData?.append('name', this.nameInput)
             this.formData?.append('daily_budget', this.dailyBudgetInput)

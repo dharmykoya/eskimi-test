@@ -108,17 +108,18 @@
                                 type="date"/>
                         </div>
 
-<!--                        <div class="mb-8">-->
-<!--                            <label class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2 mb-2" for="banners">-->
-<!--                                Banners(multiple)-->
-<!--                            </label>-->
-<!--                            <input id="banners" accept="image/*" class="mb-3" multiple name="banners[]" type="file"-->
-<!--                                   @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length"-->
-<!--                            >-->
-<!--                            <p class="text-xs text-gray-500">-->
-<!--                                PNG, JPG, GIF up to 2MB-->
-<!--                            </p>-->
-<!--                        </div>-->
+                        <div class="mb-8">
+                            <label class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2 mb-2" for="banners">
+                                Banners(multiple)
+                            </label>
+                            <input id="banners" accept="image/*" class="mb-3" multiple name="banners[]" type="file"
+                                   @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length"
+                            >
+                            <p class="text-xs text-gray-500">
+                                PNG, JPG, GIF up to 2MB
+                            </p>
+                        </div>
+
 
                         <div>
                             <button :disabled="loading" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -129,6 +130,51 @@
                         </div>
                     </template>
                 </form>
+
+                <template v-if="images">
+                    <div class="mt-10">
+                        <div v-for="image in campaign.images" :key="image.id" class="flex justify-between mb-4">
+                            <p>{{image.name}}</p>
+                            <div>
+                                <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded" @click.prevent="removeImage(image.id)">remove</button>
+                                <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded" @click.prevent="openImage(image.url)">
+                                    view
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+<!--                <div class="mt-6 mb-2">-->
+<!--                    <p class="text-green-500 mb-4 text-center">{{ uploadMessage }}</p>-->
+<!--                    <div v-if="isError" class="mb-8 mt-4">-->
+<!--                        <ul>-->
+<!--                            <li v-for="(error, index) in uploadErrors" :key="index" class="text-red-500">-->
+<!--                                {{ error[0] }}-->
+<!--                            </li>-->
+<!--                        </ul>-->
+
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div>-->
+<!--                    <label class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2 mb-2" for="banners">-->
+<!--                        Add Banners(multiple)-->
+<!--                    </label>-->
+<!--                    <input id="banners" accept="image/*" class="mb-3" multiple name="banners[]" type="file"-->
+<!--                           @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length"-->
+<!--                    >-->
+<!--                    <p class="text-xs text-gray-500">-->
+<!--                        PNG, JPG, GIF up to 2MB-->
+<!--                    </p>-->
+<!--                </div>-->
+<!--                <div class="mt-4">-->
+<!--                    <button @click.prevent="uploadImages"  :disabled="isUploading" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"-->
+<!--                            type="submit">-->
+<!--                        <span v-if="isUploading">Uploading...</span>-->
+<!--                        <span v-else>Upload</span>-->
+<!--                    </button>-->
+<!--                </div>-->
             </div>
         </div>
     </div>
@@ -150,9 +196,12 @@ export default {
             loading: false,
             formData: null,
             formErrors: [],
+            uploadErrors: [],
             successMessage: '',
+            uploadMessage:  '',
             showEndDateCalendar: false,
             showStartDateCalendar: false,
+            isUploading: false
         }
     },
     computed: {
@@ -189,6 +238,9 @@ export default {
             this.endDateInput = '';
             this.uploadedFiles = []
         },
+        openImage(url) {
+            window.open(`http://127.0.0.1:8084/${url}`,  '_blank')
+        },
         filesChange(inputName, fileList) {
             const formData = new FormData();
             if (!fileList.length) return;
@@ -209,20 +261,32 @@ export default {
                 return
             }
 
-            const form = {
-                'name': this.nameInput,
-                'daily_budget': this.dailyBudgetInput,
-                'total_budget': this.totalBudgetInput,
-                'start_date': this.startDateInput,
-                'end_date': this.endDateInput
+            let isFormData = true;
+            let form = {}
+            try {
+                this.formData?.append('name', this.nameInput)
+                this.formData?.append('daily_budget', this.dailyBudgetInput)
+                this.formData?.append('total_budget', this.totalBudgetInput)
+                this.formData?.append('start_date', this.startDateInput)
+                this.formData?.append('end_date', this.endDateInput)
+            }  catch {
+                this.formData = new FormData();
+                isFormData  = false;
+                form = {
+                    'name': this.nameInput,
+                    'daily_budget': this.dailyBudgetInput,
+                    'total_budget': this.totalBudgetInput,
+                    'start_date': this.startDateInput,
+                    'end_date': this.endDateInput
+                }
             }
 
             const res = await fetch(`http://localhost:8084/api/campaigns/${this.campaign?.id}`, {
-                method: 'PUT',
+                method: 'POST',
                 headers: {
-                    'Content-type': 'application/json',
+                    ...(isFormData ? '' : {'Content-type': 'application/json'})
                 },
-                body: JSON.stringify(form),
+                body: isFormData ? this.formData : JSON.stringify(form)
             })
             const data = await res.json()
             this.loading = false
@@ -237,6 +301,7 @@ export default {
                 return
             }
             this.reset();
+            await this.reloadData();
             this.successMessage = "Advert Updated";
             this.loading = false
         },
@@ -245,17 +310,51 @@ export default {
             const data = await response.json();
             return data.data
         },
+        async removeImage(imageId) {
+            const response = await fetch(`http://localhost:8084/api/images/${imageId}`, {
+                method: 'DELETE'
+            })
+            const data = await response.json();
+            console.log(56, data)
+            return data.data
+        },
+        async uploadImages() {
+            this.isUploading = true;
+            console.log(89, uploading)
+            const res = await fetch(`http://localhost:8084/api/images/${this.campaign?.id}`, {
+                method: 'POST',
+                body: this.formData,
+            })
+            const data = await res.json()
+            this.isUploading = false
+            if (!data.success) {
+                this.isError = true;
+                if (data.errors) {
+                    this.uploadErrors = Object.entries(data.errors)
+                        .map(([, fieldErrors]) =>
+                            fieldErrors.map(fieldError => `${fieldError}`)
+                        )
+                }
+                return
+            }
+            this.reset();
+            this.uploadMessage = "Advert Updated";
+            this.isUploading = false
+        },
+        async reloadData() {
+            this.campaign = await this.fetchCampaign();
+            this.nameInput = this.campaign.name
+            this.dailyBudgetInput = this.campaign.daily_budget
+            this.totalBudgetInput = this.campaign.total_budget
+            this.startDateInput = this.campaign.start_date
+            this.endDateInput = this.campaign.end_date
+        }
     },
     mounted() {
         this.reset();
     },
     async created() {
-        this.campaign = await this.fetchCampaign();
-        this.nameInput = this.campaign.name
-        this.dailyBudgetInput = this.campaign.daily_budget
-            this.totalBudgetInput = this.campaign.total_budget
-            this.startDateInput = this.campaign.start_date
-            this.endDateInput = this.campaign.end_date
+        await this.reloadData();
     }
 }
 </script>

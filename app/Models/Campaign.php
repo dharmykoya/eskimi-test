@@ -76,4 +76,26 @@ class Campaign extends Model
     {
         $this->attributes['end_date'] = Carbon::parse($value);
     }
+
+    /**
+     * Set the campaign's  daily budget.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setDailyBudgetAttribute(string $value)
+    {
+        $this->attributes['daily_budget'] = $value  * 100;
+    }
+
+    /**
+     * Set the campaign's  total budget.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setTotalBudgetAttribute(string $value)
+    {
+        $this->attributes['total_budget'] = $value  * 100;
+    }
 }

@@ -38,10 +38,62 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -193,9 +245,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       loading: false,
       formData: null,
       formErrors: [],
+      uploadErrors: [],
       successMessage: '',
+      uploadMessage: '',
       showEndDateCalendar: false,
-      showStartDateCalendar: false
+      showStartDateCalendar: false,
+      isUploading: false
     };
   },
   computed: {
@@ -244,6 +299,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.endDateInput = '';
       this.uploadedFiles = [];
     },
+    openImage: function openImage(url) {
+      window.open("http://127.0.0.1:8084/".concat(url), '_blank');
+    },
     filesChange: function filesChange(inputName, fileList) {
       var formData = new FormData();
       if (!fileList.length) return;
@@ -258,7 +316,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         var _this$campaign7;
 
-        var form, res, data;
+        var isFormData, form, _this$formData, _this$formData2, _this$formData3, _this$formData4, _this$formData5, res, data;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -277,33 +336,47 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context.abrupt("return");
 
               case 7:
-                form = {
-                  'name': _this.nameInput,
-                  'daily_budget': _this.dailyBudgetInput,
-                  'total_budget': _this.totalBudgetInput,
-                  'start_date': _this.startDateInput,
-                  'end_date': _this.endDateInput
-                };
-                _context.next = 10;
+                isFormData = true;
+                form = {};
+
+                try {
+                  (_this$formData = _this.formData) === null || _this$formData === void 0 ? void 0 : _this$formData.append('name', _this.nameInput);
+                  (_this$formData2 = _this.formData) === null || _this$formData2 === void 0 ? void 0 : _this$formData2.append('daily_budget', _this.dailyBudgetInput);
+                  (_this$formData3 = _this.formData) === null || _this$formData3 === void 0 ? void 0 : _this$formData3.append('total_budget', _this.totalBudgetInput);
+                  (_this$formData4 = _this.formData) === null || _this$formData4 === void 0 ? void 0 : _this$formData4.append('start_date', _this.startDateInput);
+                  (_this$formData5 = _this.formData) === null || _this$formData5 === void 0 ? void 0 : _this$formData5.append('end_date', _this.endDateInput);
+                } catch (_unused) {
+                  _this.formData = new FormData();
+                  isFormData = false;
+                  form = {
+                    'name': _this.nameInput,
+                    'daily_budget': _this.dailyBudgetInput,
+                    'total_budget': _this.totalBudgetInput,
+                    'start_date': _this.startDateInput,
+                    'end_date': _this.endDateInput
+                  };
+                }
+
+                _context.next = 12;
                 return fetch("http://localhost:8084/api/campaigns/".concat((_this$campaign7 = _this.campaign) === null || _this$campaign7 === void 0 ? void 0 : _this$campaign7.id), {
-                  method: 'PUT',
-                  headers: {
+                  method: 'POST',
+                  headers: _objectSpread({}, isFormData ? '' : {
                     'Content-type': 'application/json'
-                  },
-                  body: JSON.stringify(form)
+                  }),
+                  body: isFormData ? _this.formData : JSON.stringify(form)
                 });
 
-              case 10:
+              case 12:
                 res = _context.sent;
-                _context.next = 13;
+                _context.next = 15;
                 return res.json();
 
-              case 13:
+              case 15:
                 data = _context.sent;
                 _this.loading = false;
 
                 if (data.success) {
-                  _context.next = 19;
+                  _context.next = 21;
                   break;
                 }
 
@@ -322,13 +395,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 return _context.abrupt("return");
 
-              case 19:
+              case 21:
                 _this.reset();
 
+                _context.next = 24;
+                return _this.reloadData();
+
+              case 24:
                 _this.successMessage = "Advert Updated";
                 _this.loading = false;
 
-              case 22:
+              case 26:
               case "end":
                 return _context.stop();
             }
@@ -364,36 +441,147 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee2);
       }))();
+    },
+    removeImage: function removeImage(imageId) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var response, data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return fetch("http://localhost:8084/api/images/".concat(imageId), {
+                  method: 'DELETE'
+                });
+
+              case 2:
+                response = _context3.sent;
+                _context3.next = 5;
+                return response.json();
+
+              case 5:
+                data = _context3.sent;
+                console.log(56, data);
+                return _context3.abrupt("return", data.data);
+
+              case 8:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    uploadImages: function uploadImages() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        var _this3$campaign;
+
+        var res, data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _this3.isUploading = true;
+                console.log(89, uploading);
+                _context4.next = 4;
+                return fetch("http://localhost:8084/api/images/".concat((_this3$campaign = _this3.campaign) === null || _this3$campaign === void 0 ? void 0 : _this3$campaign.id), {
+                  method: 'POST',
+                  body: _this3.formData
+                });
+
+              case 4:
+                res = _context4.sent;
+                _context4.next = 7;
+                return res.json();
+
+              case 7:
+                data = _context4.sent;
+                _this3.isUploading = false;
+
+                if (data.success) {
+                  _context4.next = 13;
+                  break;
+                }
+
+                _this3.isError = true;
+
+                if (data.errors) {
+                  _this3.uploadErrors = Object.entries(data.errors).map(function (_ref3) {
+                    var _ref4 = _slicedToArray(_ref3, 2),
+                        fieldErrors = _ref4[1];
+
+                    return fieldErrors.map(function (fieldError) {
+                      return "".concat(fieldError);
+                    });
+                  });
+                }
+
+                return _context4.abrupt("return");
+
+              case 13:
+                _this3.reset();
+
+                _this3.uploadMessage = "Advert Updated";
+                _this3.isUploading = false;
+
+              case 16:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    },
+    reloadData: function reloadData() {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return _this4.fetchCampaign();
+
+              case 2:
+                _this4.campaign = _context5.sent;
+                _this4.nameInput = _this4.campaign.name;
+                _this4.dailyBudgetInput = _this4.campaign.daily_budget;
+                _this4.totalBudgetInput = _this4.campaign.total_budget;
+                _this4.startDateInput = _this4.campaign.start_date;
+                _this4.endDateInput = _this4.campaign.end_date;
+
+              case 8:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }))();
     }
   },
   mounted: function mounted() {
     this.reset();
   },
   created: function created() {
-    var _this3 = this;
+    var _this5 = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
         while (1) {
-          switch (_context3.prev = _context3.next) {
+          switch (_context6.prev = _context6.next) {
             case 0:
-              _context3.next = 2;
-              return _this3.fetchCampaign();
+              _context6.next = 2;
+              return _this5.reloadData();
 
             case 2:
-              _this3.campaign = _context3.sent;
-              _this3.nameInput = _this3.campaign.name;
-              _this3.dailyBudgetInput = _this3.campaign.daily_budget;
-              _this3.totalBudgetInput = _this3.campaign.total_budget;
-              _this3.startDateInput = _this3.campaign.start_date;
-              _this3.endDateInput = _this3.campaign.end_date;
-
-            case 8:
             case "end":
-              return _context3.stop();
+              return _context6.stop();
           }
         }
-      }, _callee3);
+      }, _callee6);
     }))();
   }
 });
@@ -1686,6 +1874,48 @@ var render = function () {
                       )
                     : _vm._e(),
                   _vm._v(" "),
+                  _c("div", { staticClass: "mb-8" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass:
+                          "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2 mb-2",
+                        attrs: { for: "banners" },
+                      },
+                      [
+                        _vm._v(
+                          "\n                                Banners(multiple)\n                            "
+                        ),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      staticClass: "mb-3",
+                      attrs: {
+                        id: "banners",
+                        accept: "image/*",
+                        multiple: "",
+                        name: "banners[]",
+                        type: "file",
+                      },
+                      on: {
+                        change: function ($event) {
+                          _vm.filesChange(
+                            $event.target.name,
+                            $event.target.files
+                          )
+                          _vm.fileCount = $event.target.files.length
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "text-xs text-gray-500" }, [
+                      _vm._v(
+                        "\n                                PNG, JPG, GIF up to 2MB\n                            "
+                      ),
+                    ]),
+                  ]),
+                  _vm._v(" "),
                   _c("div", [
                     _c(
                       "button",
@@ -1705,7 +1935,66 @@ var render = function () {
               ],
               2
             ),
-          ]
+            _vm._v(" "),
+            _vm.images
+              ? [
+                  _c(
+                    "div",
+                    { staticClass: "mt-10" },
+                    _vm._l(_vm.campaign.images, function (image) {
+                      return _c(
+                        "div",
+                        {
+                          key: image.id,
+                          staticClass: "flex justify-between mb-4",
+                        },
+                        [
+                          _c("p", [_vm._v(_vm._s(image.name))]),
+                          _vm._v(" "),
+                          _c("div", [
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "bg-blue-700 text-xs text-white px-2 py-1 rounded",
+                                on: {
+                                  click: function ($event) {
+                                    $event.preventDefault()
+                                    return _vm.removeImage(image.id)
+                                  },
+                                },
+                              },
+                              [_vm._v("remove")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "bg-blue-700 text-xs text-white px-2 py-1 rounded",
+                                on: {
+                                  click: function ($event) {
+                                    $event.preventDefault()
+                                    return _vm.openImage(image.url)
+                                  },
+                                },
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                    view\n                                "
+                                ),
+                              ]
+                            ),
+                          ]),
+                        ]
+                      )
+                    }),
+                    0
+                  ),
+                ]
+              : _vm._e(),
+          ],
+          2
         ),
       ]),
     ]

@@ -16,6 +16,7 @@ return [
     'store' => 'This record has been created successfully.',
     'all' => 'Data fetched successfully',
     'update' => 'Update successful',
-    'get' => 'Data fetched'
+    'get' => 'Data fetched',
+    'delete' => 'Data  deleted'
 
 ];
