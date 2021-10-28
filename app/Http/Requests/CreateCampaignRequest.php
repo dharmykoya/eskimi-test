@@ -27,6 +27,8 @@ class CreateCampaignRequest extends FormRequest
             'name' => ['required', 'unique:campaigns'],
             'total_budget' => ['required', 'numeric'],
             'daily_budget' => ['required', 'numeric'],
+            'banners' => ['required'],
+            'banners.*' => ['mimes:jpeg,jpg,png,gif', 'max:2048']
         ];
     }
 }
