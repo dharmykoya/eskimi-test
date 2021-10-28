@@ -11,10 +11,10 @@ class ImageService
     /**
      * Upload Image
      *
-     * @param Campaign $campaign
+     * @param Model $campaign
      * @return Model
      */
-    public function uploadImage(Campaign $campaign): Model
+    public function uploadImage(Model $campaign): Model
     {
         if (request()->file('banners')) {
             $count = 1;

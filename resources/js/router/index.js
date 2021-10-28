@@ -23,6 +23,15 @@ export const routes = [
         }
     },
     {
+        path: '/campaigns/:campaignId/edit',
+        name: 'edit-campaign',
+        component: () => import('../components/EditCampaign'),
+        props: true,
+        meta: {
+            guest: true
+        }
+    },
+    {
         path: '/campaigns/:campaignId',
         name: 'campaign',
         component: () => import('../components/Campaign'),

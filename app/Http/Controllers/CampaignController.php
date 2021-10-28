@@ -3,18 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateCampaignRequest;
+use App\Http\Requests\UpdateCampaignRequest;
 use App\Http\Resources\CampaignResource;
 use App\Models\Campaign;
 use App\Services\CampaignService;
 use Exception;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
-use App\Models\Image;
 
 class CampaignController extends Controller
 {
@@ -75,13 +72,13 @@ class CampaignController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param CreateCampaignRequest $request
+     * @param UpdateCampaignRequest $request
      * @param Campaign $campaign
      * @return JsonResponse
      */
-    public function update(CreateCampaignRequest $request, Campaign $campaign): JsonResponse
+    public function update(UpdateCampaignRequest $request, Campaign $campaign): JsonResponse
     {
-        $campaign = $this->campaignService->updateCampaign($request->validated(), $campaign);
-        return $this->success($campaign, Lang::get('operation.update'));
+        $updatedCampaign = $this->campaignService->updateCampaign($request->validated(), $campaign);
+        return $this->success($updatedCampaign, Lang::get('operation.update'));
     }
 }

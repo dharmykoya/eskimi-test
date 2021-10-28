@@ -78,14 +78,67 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Home.vue",
   data: function data() {
     return {
-      campaigns: []
+      campaigns: [],
+      showModal: false,
+      selectedCampaign: null
     };
   },
+  computed: {
+    images: function images() {
+      var _this$selectedCampaig, _this$selectedCampaig2;
+
+      return ((_this$selectedCampaig = this.selectedCampaign) === null || _this$selectedCampaig === void 0 ? void 0 : (_this$selectedCampaig2 = _this$selectedCampaig.images) === null || _this$selectedCampaig2 === void 0 ? void 0 : _this$selectedCampaig2.length) > 0;
+    }
+  },
   methods: {
+    closeModal: function closeModal() {
+      this.showModal = false;
+    },
+    openModal: function openModal() {
+      this.showModal = true;
+    },
+    selectCampaign: function selectCampaign(campaign) {
+      this.selectedCampaign = campaign;
+      this.openModal();
+    },
     fetchCampaigns: function fetchCampaigns() {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         var response, data;
@@ -1020,11 +1073,7 @@ var render = function () {
                   "bg-blue-700 px-4  text-white py-1 rounded-md mb-8",
                 attrs: { to: { name: "new-campaign" } },
               },
-              [
-                _vm._v(
-                  "\n                    Create campaign\n                "
-                ),
-              ]
+              [_vm._v("\n                Create campaign\n            ")]
             ),
           ],
           1
@@ -1045,8 +1094,16 @@ var render = function () {
               },
               [
                 _c(
-                  "router-link",
-                  { attrs: { to: "/campaigns/" + campaign.id } },
+                  "div",
+                  {
+                    staticClass: "cursor-pointer",
+                    on: {
+                      click: function ($event) {
+                        $event.preventDefault()
+                        return _vm.selectCampaign(campaign)
+                      },
+                    },
+                  },
                   [
                     _c(
                       "div",
@@ -1076,9 +1133,9 @@ var render = function () {
                               attrs: { "aria-hidden": "true" },
                             }),
                             _vm._v(
-                              "\n                                        " +
+                              "\n                                    " +
                                 _vm._s(campaign.name) +
-                                "\n                                    "
+                                "\n                                "
                             ),
                           ]),
                         ]),
@@ -1110,17 +1167,150 @@ var render = function () {
                             [_vm._v(_vm._s(campaign.total_budget))]
                           ),
                         ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "flex justify-between" }, [
+                          _c(
+                            "p",
+                            { staticClass: "mt-1 text-sm text-gray-500" },
+                            [_vm._v("Start Date")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "p",
+                            { staticClass: "mt-1 text-sm text-gray-500" },
+                            [_vm._v(_vm._s(campaign.start_date))]
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "flex justify-between" }, [
+                          _c(
+                            "p",
+                            { staticClass: "mt-1 text-sm text-gray-500" },
+                            [_vm._v("End Date ")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "p",
+                            { staticClass: "mt-1 text-sm text-gray-500" },
+                            [_vm._v(_vm._s(campaign.end_date))]
+                          ),
+                        ]),
                       ]),
                     ]),
                   ]
                 ),
-              ],
-              1
+              ]
             )
           }),
           0
         ),
-      ]
+        _vm._v(" "),
+        _c(
+          "modal",
+          {
+            attrs: { showing: _vm.showModal },
+            on: {
+              close: function ($event) {
+                _vm.showModal = false
+              },
+            },
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8",
+              },
+              [
+                _vm.images
+                  ? [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "mt-10 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8",
+                        },
+                        _vm._l(_vm.selectedCampaign.images, function (image) {
+                          return _c(
+                            "div",
+                            {
+                              key: image.id,
+                              staticClass: "group relative drop-shadow-md",
+                            },
+                            [
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none",
+                                },
+                                [
+                                  _c("img", {
+                                    staticClass:
+                                      "w-full h-full object-center object-cover lg:w-full lg:h-full max-h-56 max-w-56",
+                                    attrs: {
+                                      alt: _vm.selectedCampaign.name,
+                                      src: "http://127.0.0.1:8084/" + image.url,
+                                    },
+                                  }),
+                                ]
+                              ),
+                            ]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "mt-10" },
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass:
+                                "bg-blue-700 rounded-md px-4 py-1 text-white mr-4",
+                              attrs: {
+                                to: {
+                                  name: "edit-campaign",
+                                  params: {
+                                    campaignId: _vm.selectedCampaign.id,
+                                  },
+                                },
+                              },
+                            },
+                            [_vm._v("Edit\n                        ")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "router-link",
+                            {
+                              staticClass:
+                                "bg-green-600 rounded-md px-4 py-1 text-white",
+                              attrs: {
+                                to: {
+                                  name: "campaign",
+                                  params: {
+                                    campaignId: _vm.selectedCampaign.id,
+                                  },
+                                },
+                              },
+                            },
+                            [_vm._v("View\n                        ")]
+                          ),
+                        ],
+                        1
+                      ),
+                    ]
+                  : _vm._e(),
+              ],
+              2
+            ),
+          ]
+        ),
+      ],
+      1
     ),
   ])
 }

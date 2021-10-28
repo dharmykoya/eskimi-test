@@ -42,10 +42,10 @@ class CampaignService
         $this->clearCache();
         $campaign = Campaign::query()->with('images')->create([
             'name' => $data['name'],
-            'total_budget' => $data['total_budget'] * 100,
-            'daily_budget' => $data['daily_budget'] * 100,
-            'start_date' =>  Carbon::parse($data['start_date']),
-            'end_date' =>  Carbon::parse($data['end_date'])
+            'total_budget' => $data['total_budget'],
+            'daily_budget' => $data['daily_budget'],
+            'start_date' =>  $data['start_date'],
+            'end_date' =>  $data['end_date'],
         ]);
         $imageUpload = new ImageService();
         $imageUpload->uploadImage($campaign);
@@ -62,11 +62,9 @@ class CampaignService
      */
     public function updateCampaign(array $data, Campaign $campaign): Campaign
     {
-        $campaign->update([
-            'name' => $data['name'],
-            'total_budget' => $data['total_budget'] * 100,
-            'daily_budget' => $data['daily_budget'] * 100,
-        ]);
+        $campaign->update($data);
+        $imageUpload = new ImageService();
+        $imageUpload->uploadImage($campaign);
         return $campaign->refresh();
     }
 

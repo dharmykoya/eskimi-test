@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -52,5 +53,49 @@ class Campaign extends Model
     public function getTotalBudgetAttribute(float $value): float
     {
         return ($value) / 100;
+    }
+
+    /**
+     * Set the campaign's  start_date.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setStartDateAttribute(string $value)
+    {
+        $this->attributes['start_date'] = Carbon::parse($value);
+    }
+
+    /**
+     * Set the campaign's  end_date.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setEndDateAttribute(string $value)
+    {
+        $this->attributes['end_date'] = Carbon::parse($value);
+    }
+
+    /**
+     * Set the campaign's  daily budget.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setDailyBudgetAttribute(string $value)
+    {
+        $this->attributes['daily_budget'] = (float) $value  * 100;
+    }
+
+    /**
+     * Set the campaign's  total budget.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setTotalBudgetAttribute(string $value)
+    {
+        $this->attributes['total_budget'] = (float) $value  * 100;
     }
 }
