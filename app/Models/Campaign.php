@@ -85,7 +85,7 @@ class Campaign extends Model
      */
     public function setDailyBudgetAttribute(string $value)
     {
-        $this->attributes['daily_budget'] = $value  * 100;
+        $this->attributes['daily_budget'] = (float) $value  * 100;
     }
 
     /**
@@ -96,6 +96,6 @@ class Campaign extends Model
      */
     public function setTotalBudgetAttribute(string $value)
     {
-        $this->attributes['total_budget'] = $value  * 100;
+        $this->attributes['total_budget'] = (float) $value  * 100;
     }
 }
