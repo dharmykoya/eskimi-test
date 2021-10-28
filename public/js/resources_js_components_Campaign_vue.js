@@ -57,6 +57,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Campaign",
   data: function data() {
@@ -83,10 +87,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       return (_this$campaign3 = this.campaign) === null || _this$campaign3 === void 0 ? void 0 : _this$campaign3.total_budget;
     },
-    images: function images() {
-      var _this$campaign4, _this$campaign4$image;
+    campaignStartDate: function campaignStartDate() {
+      var _this$campaign4;
 
-      return ((_this$campaign4 = this.campaign) === null || _this$campaign4 === void 0 ? void 0 : (_this$campaign4$image = _this$campaign4.images) === null || _this$campaign4$image === void 0 ? void 0 : _this$campaign4$image.length) > 0;
+      return (_this$campaign4 = this.campaign) === null || _this$campaign4 === void 0 ? void 0 : _this$campaign4.start_date;
+    },
+    campaignEndDate: function campaignEndDate() {
+      var _this$campaign5;
+
+      return (_this$campaign5 = this.campaign) === null || _this$campaign5 === void 0 ? void 0 : _this$campaign5.end_date;
+    },
+    images: function images() {
+      var _this$campaign6, _this$campaign6$image;
+
+      return ((_this$campaign6 = this.campaign) === null || _this$campaign6 === void 0 ? void 0 : (_this$campaign6$image = _this$campaign6.images) === null || _this$campaign6$image === void 0 ? void 0 : _this$campaign6$image.length) > 0;
     }
   },
   methods: {
@@ -1058,13 +1072,33 @@ var render = function () {
           ),
         ]),
         _vm._v(" "),
+        _c("div", { staticClass: "flex mt-4" }, [
+          _c(
+            "h2",
+            {
+              staticClass:
+                "text-xl font-extrabold tracking-tight text-gray-900 mr-8",
+            },
+            [_vm._v("Start date: " + _vm._s(_vm.campaignStartDate))]
+          ),
+          _vm._v(" "),
+          _c(
+            "h2",
+            {
+              staticClass:
+                "text-xl font-extrabold tracking-tight text-gray-900",
+            },
+            [_vm._v("End date: " + _vm._s(_vm.campaignEndDate))]
+          ),
+        ]),
+        _vm._v(" "),
         _vm.images
           ? [
               _c(
                 "div",
                 {
                   staticClass:
-                    "mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8",
+                    "mt-10 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8",
                 },
                 _vm._l(_vm.campaign.images, function (image) {
                   return _c(

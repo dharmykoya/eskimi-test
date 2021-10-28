@@ -8,9 +8,13 @@
                 <h2 class="text-2xl font-extrabold tracking-tight text-green-300 mx-8">Daily budget:  {{formatMoney(dailyBudget)}}</h2>
                 <h2 class="text-2xl font-extrabold tracking-tight text-green-300">Total budget: {{formatMoney(totalBudget)}}</h2>
             </div>
+            <div class="flex mt-4">
+                <h2 class="text-xl font-extrabold tracking-tight text-gray-900 mr-8">Start date: {{campaignStartDate}}</h2>
+                <h2 class="text-xl font-extrabold tracking-tight text-gray-900">End date: {{campaignEndDate}}</h2>
+            </div>
 
             <template v-if="images">
-                <div class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                <div class="mt-10 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
 
                     <div v-for="image in campaign.images" :key="image.id" class="group relative drop-shadow-md">
                         <div
@@ -45,6 +49,12 @@ export default {
         },
         totalBudget() {
             return this.campaign?.total_budget
+        },
+        campaignStartDate() {
+            return this.campaign?.start_date
+        },
+        campaignEndDate() {
+            return this.campaign?.end_date
         },
         images() {
             return this.campaign?.images?.length > 0

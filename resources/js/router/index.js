@@ -14,6 +14,15 @@ export const routes = [
         }
     },
     {
+        path: '/campaigns/create',
+        name: 'new-campaign',
+        component: () => import('../components/NewCampaign'),
+        props: true,
+        meta: {
+            guest: true
+        }
+    },
+    {
         path: '/campaigns/:campaignId',
         name: 'campaign',
         component: () => import('../components/Campaign'),

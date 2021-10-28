@@ -18,6 +18,8 @@ class CreateCampaignsTable extends Migration
             $table->string('name')->unique();
             $table->decimal('total_budget', 18, 2);
             $table->decimal('daily_budget', 18, 2);
+            $table->date('start_date');
+            $table->date('end_date');
             $table->timestamps();
             $table->softDeletes();
         });
