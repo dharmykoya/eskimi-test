@@ -62,6 +62,7 @@ class CampaignService
      */
     public function updateCampaign(array $data, Campaign $campaign): Campaign
     {
+        $this->clearCache();
         $campaign->update($data);
         $imageUpload = new ImageService();
         $imageUpload->uploadImage($campaign);
