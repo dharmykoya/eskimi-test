@@ -40,15 +40,14 @@ class CampaignService
     public function createCampaign(array $data): Model
     {
         $this->clearCache();
-        $campaign = Campaign::query()->with('images')->create([
+        $campaign = Campaign::query()->create([
             'name' => $data['name'],
             'total_budget' => $data['total_budget'],
             'daily_budget' => $data['daily_budget'],
             'start_date' =>  $data['start_date'],
             'end_date' =>  $data['end_date'],
         ]);
-        $imageUpload = new ImageService();
-        $imageUpload->uploadImage($campaign);
+        ImageService::uploadImage($campaign);
 
         return $campaign->refresh();
     }
@@ -64,8 +63,7 @@ class CampaignService
     {
         $this->clearCache();
         $campaign->update($data);
-        $imageUpload = new ImageService();
-        $imageUpload->uploadImage($campaign);
+        ImageService::uploadImage($campaign);
         return $campaign->refresh();
     }
 

@@ -29,7 +29,7 @@ class CampaignController extends Controller
     public function index(): JsonResponse
     {
         $campaigns = $this->campaignService->getAllCampaigns();
-        return $this->success(CampaignResource::collection($campaigns), Lang::get('operation.all'));
+        return $this->success(CampaignResource::collection($campaigns), __('operation.all'));
     }
 
 
@@ -41,7 +41,7 @@ class CampaignController extends Controller
      */
     public function show(Campaign $campaign): JsonResponse
     {
-        return $this->success(new CampaignResource($campaign), Lang::get('operation.get'));
+        return $this->success(new CampaignResource($campaign), __('operation.get'));
     }
 
     /**
@@ -60,7 +60,7 @@ class CampaignController extends Controller
             DB::commit();
             return $this->success(
                 new CampaignResource($campaign),
-                Lang::get('operation.store'),
+                __('operation.store'),
                 Response::HTTP_CREATED
             );
         } catch (Exception $e) {
@@ -79,6 +79,6 @@ class CampaignController extends Controller
     public function update(UpdateCampaignRequest $request, Campaign $campaign): JsonResponse
     {
         $updatedCampaign = $this->campaignService->updateCampaign($request->validated(), $campaign);
-        return $this->success($updatedCampaign, Lang::get('operation.update'));
+        return $this->success($updatedCampaign, __('operation.update'));
     }
 }
